@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: react-app:dev  # Name for the frontend container
+    ports:
+      - "3000:3000"  # Map port 3000 on the host to port 3000 in the container
+    depends_on:
+      - backend  # Ensure the backend is running before the frontend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./app-backend
+      dockerfile: Dockerfile
+    image: react-app2:dev  # Name for the backend container
+    ports:
+      - "5000:5000"  # Map port 5000 on the host to port 5000 in the container
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
